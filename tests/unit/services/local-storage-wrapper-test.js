@@ -21,14 +21,22 @@ test('It can add a key with default namespace', function (assert){
 
 test('Adds key with custom namespace', function (assert){
   var service = this.subject({namespace: 'test'});
-  service.setItem('testKey', {things: 'someStuff'});
+  var objectToStore = {things: 'someStuff'};
+  service.setItem('testKey', objectToStore);
   var result = localStorage.getItem('test.testKey');
-  assert.equal(result, '{"things":"someStuff"}');
+  assert.deepEqual(result, '{"things":"someStuff"}');
 });
 
 test('retreives a key', function (assert){
   var service = this.subject();
-  localStorage.setItem('ember-local-storage.setKey', 'setStuff');
+  var objectToStore = {things: 'someStuff'};
+  localStorage.setItem('ember-local-storage.setKey', JSON.stringify(objectToStore));
   var result = service.getItem('setKey');
-  assert.equal(result, 'setStuff');
+  assert.deepEqual(result, objectToStore);
+});
+
+test('return undefined when key not found', function (assert) {
+  var service = this.subject();
+  var result = service.getItem('nonsense');
+  assert.equal(result, undefined);
 });

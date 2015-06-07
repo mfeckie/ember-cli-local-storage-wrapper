@@ -7,7 +7,10 @@ export default Ember.Service.extend({
     localStorage.setItem(this._namespacedKey(key), stringified);
   },
   getItem: function (key) {
-    return localStorage.getItem(this._namespacedKey(key));
+    var result = localStorage.getItem(this._namespacedKey(key));
+    if (result) {
+      return JSON.parse(result);
+    }
   },
   _namespacedKey: function (key) {
     return this.get('namespace') + `.${key}`;
