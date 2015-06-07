@@ -1,3 +1,5 @@
+[ ![Codeship Status for mfeckie/ember-cli-local-storage-wrapper](https://codeship.com/projects/a197c120-ef37-0132-2d22-428b5d81b233/status?branch=master)](https://codeship.com/projects/84317)
+
 # Ember-cli-local-storage-wrapper
 
 Super slim interface for local storage.
