@@ -38,11 +38,19 @@ export default Ember.Route.extend({
 
 ## Available functions
 
-`setItem(key, object)`
+`setItem(key, object, [options])`
 
+Available options
+
+{ttl: timeInSeconds} -> Sets an expiry period for the key, which you can use later to decide if it needs a refresh
 
 `getItem(key)`
 
+Returns the object you pushed into the store.
+
+`keyExpired(key)`
+
+Return true if the key is past its expiry time.
 
 
 ## Installation
