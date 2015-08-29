@@ -31,14 +31,16 @@ export default Ember.Service.extend({
   },
   keyExpired: function (key, now) {
     var ttl = this.getItem(`_ttl_${key}`);
+    if (ttl) {
+      var expiry = new Date(ttl.lastUpdated)
+          .setTime(new Date(ttl.lastUpdated)
+          .getTime() + ttl.ttl);
 
-    var expiry = new Date(ttl.lastUpdated)
-        .setTime(new Date(ttl.lastUpdated)
-        .getTime() + ttl.ttl);
+      now = now || new Date();
 
-    now = now || new Date();
-
-    return now > expiry;
+      return now > expiry;
+    }
+    return true;
   },
   _setTTLKey: function (key, ttlOptions) {
     var dateTime = new Date();

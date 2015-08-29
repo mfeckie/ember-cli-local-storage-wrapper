@@ -63,3 +63,11 @@ test('Returns true when outside expiry period', function (assert) {
 
   assert.equal(service.keyExpired('dobby', futureDate), true);
 });
+
+test('If expiry key not present return true for key expired', function (assert) {
+  var service = this.subject();
+  var objectWithNoTTL = { hermione: 'Witch' };
+  service.setItem('hermione', objectWithNoTTL);
+
+  assert.ok(service.keyExpired('hermione'));
+});
