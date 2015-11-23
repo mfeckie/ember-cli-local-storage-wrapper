@@ -3,14 +3,9 @@ import {
   test
 } from 'ember-qunit';
 
-moduleFor('service:local-storage-wrapper', {
-  beforeEach: function () {
-    localStorage.clear();
-  },
-  afterEach: function () {
-    localStorage.clear();
-  }
-});
+import cleanLocalStorage from '../../helpers/clean-local-storage';
+
+moduleFor('service:local-storage-wrapper', {});
 
 test('It can add a key with default namespace', function (assert){
   var service = this.subject();
@@ -18,6 +13,8 @@ test('It can add a key with default namespace', function (assert){
   var result = localStorage.getItem('ember-local-storage.testKey');
 
   assert.equal(result, '{"things":"someStuff"}');
+
+  cleanLocalStorage(service, ['testKey']);
 });
 
 test('Adds key with custom namespace', function (assert){
@@ -27,6 +24,7 @@ test('Adds key with custom namespace', function (assert){
   var result = localStorage.getItem('test.testKey');
 
   assert.deepEqual(result, '{"things":"someStuff"}');
+  cleanLocalStorage(service, ['testKey']);
 });
 
 test('retreives a key', function (assert){
@@ -36,6 +34,7 @@ test('retreives a key', function (assert){
   var result = service.getItem('setKey');
 
   assert.deepEqual(result, objectToStore);
+  cleanLocalStorage(service, ['setKey']);
 });
 
 test('return undefined when key not found', function (assert) {
@@ -51,6 +50,7 @@ test('Return false when in time to live period', function (assert) {
   service.setItem('dobby', objectWithTTL ,{ttl: 23});
 
   assert.equal(service.keyExpired('dobby'), false);
+  cleanLocalStorage(service, ['dobby']);
 });
 
 test('Returns true when outside expiry period', function (assert) {
@@ -62,6 +62,7 @@ test('Returns true when outside expiry period', function (assert) {
   var futureDate = new Date().setTime(new Date().getTime() + 24);
 
   assert.equal(service.keyExpired('dobby', futureDate), true);
+  cleanLocalStorage(service, ['dobby', '_ttl_dobby']);
 });
 
 test('If expiry key not present return true for key expired', function (assert) {
@@ -70,4 +71,5 @@ test('If expiry key not present return true for key expired', function (assert) 
   service.setItem('hermione', objectWithNoTTL);
 
   assert.ok(service.keyExpired('hermione'));
+  cleanLocalStorage(service, ['hermione']);
 });
