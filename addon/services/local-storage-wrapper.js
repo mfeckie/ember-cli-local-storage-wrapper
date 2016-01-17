@@ -8,7 +8,7 @@ function setItem(key, value) {
 }
 
 function getItem(key) {
-  var result = localStorage.getItem(key);
+  const result = localStorage.getItem(key);
   if (result) {
     return parse(result);
   }
@@ -17,8 +17,8 @@ function getItem(key) {
 
 export default Ember.Service.extend({
   namespace: 'ember-local-storage',
-  setItem: function (key, object) {
-    var ttlOptions = arguments[2];
+  setItem (key, object) {
+    const ttlOptions = arguments[2];
 
     if (ttlOptions) {
       this._setTTLKey(key, ttlOptions);
@@ -26,29 +26,27 @@ export default Ember.Service.extend({
 
     setItem(this._namespacedKey(key), object);
   },
-  getItem: function (key) {
+  getItem (key) {
     return getItem(this._namespacedKey(key));
   },
-  keyExpired: function (key, now) {
-    var ttl = this.getItem(`_ttl_${key}`);
+  keyExpired (key, now = new Date()) {
+    const ttl = this.getItem(`_ttl_${key}`);
     if (ttl) {
-      var expiry = new Date(ttl.lastUpdated)
+      const expiry = new Date(ttl.lastUpdated)
           .setTime(new Date(ttl.lastUpdated)
           .getTime() + ttl.ttl);
-
-      now = now || new Date();
 
       return now > expiry;
     }
     return true;
   },
-  _setTTLKey: function (key, ttlOptions) {
-    var dateTime = new Date();
+  _setTTLKey (key, ttlOptions) {
+    const dateTime = new Date();
     setItem(this._namespacedKey(`_ttl_${key}`),
       {ttl: ttlOptions.ttl, lastUpdated: dateTime}
     );
   },
-  _namespacedKey: function (key) {
+  _namespacedKey (key) {
     return this.get('namespace') + `.${key}`;
   }
 });
