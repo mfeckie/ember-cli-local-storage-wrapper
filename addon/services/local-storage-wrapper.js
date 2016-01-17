@@ -29,6 +29,12 @@ export default Ember.Service.extend({
   getItem (key) {
     return getItem(this._namespacedKey(key));
   },
+  setRawItem (key, string) {
+    localStorage.setItem(this._namespacedKey(key), string);
+  },
+  getRawItem (key) {
+    return localStorage.getItem(this._namespacedKey(key));
+  },
   keyExpired (key, now = new Date()) {
     const ttl = this.getItem(`_ttl_${key}`);
     if (ttl) {

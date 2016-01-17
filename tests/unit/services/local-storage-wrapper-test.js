@@ -73,3 +73,25 @@ test('If expiry key not present return true for key expired', function (assert) 
   assert.ok(service.keyExpired('hermione'));
   cleanLocalStorage(service, ['hermione']);
 });
+
+test('Can add a raw key', function (assert) {
+  const service = this.subject();
+  const rawString = "Bertie Bot's Every Flavoured Beans";
+  service.setRawItem('bertie', rawString);
+
+  const result = localStorage.getItem('ember-local-storage.bertie');
+
+  assert.equal(result, rawString);
+  cleanLocalStorage(service, ['bertie']);
+});
+
+test('Can retreive a raw key', function (assert) {
+  const service = this.subject();
+  const rawString = "Bertie Bot's Every Flavoured Beans";
+  service.setRawItem('bertie', rawString);
+
+  const result = service.getRawItem('bertie');
+
+  assert.equal(result, rawString);
+  cleanLocalStorage(service, ['bertie']);
+});
