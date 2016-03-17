@@ -42,7 +42,7 @@ export default Ember.Route.extend({
 
 Available options
 
-{ttl: timeInSeconds} -> Sets an expiry period for the key, which you can use later to decide if it needs a refresh
+{ttl: timeInMilliseconds} -> Sets an expiry period for the key, which you can use later to decide if it needs a refresh
 
 `getItem(key)`
 
