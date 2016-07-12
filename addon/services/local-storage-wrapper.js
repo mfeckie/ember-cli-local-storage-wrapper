@@ -14,6 +14,9 @@ function getItem(key) {
   }
 }
 
+function removeItem(key) {
+  localStorage.removeItem(key);
+}
 
 export default Ember.Service.extend({
   namespace: 'ember-local-storage',
@@ -28,6 +31,9 @@ export default Ember.Service.extend({
   },
   getItem (key) {
     return getItem(this._namespacedKey(key));
+  },
+  removeItem(key) {
+    removeItem(this._namespacedKey(key));
   },
   setRawItem (key, string) {
     localStorage.setItem(this._namespacedKey(key), string);

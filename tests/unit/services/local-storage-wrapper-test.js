@@ -95,3 +95,18 @@ test('Can retreive a raw key', function (assert) {
   assert.equal(result, rawString);
   cleanLocalStorage(service, ['bertie']);
 });
+
+test('Can delete a ley', function (assert) {
+  const service = this.subject();
+  const rawString = "Bertie Bot's Every Flavoured Beans";
+  service.setRawItem('bertie', rawString);
+
+  const result = localStorage.getItem('ember-local-storage.bertie');
+  assert.equal(result, rawString);
+
+  service.removeItem('bertie');
+
+  const noResult = localStorage.getItem('ember-local-storage.bertie');
+  assert.equal(noResult, null);
+  cleanLocalStorage(service, ['bertie']);
+});
